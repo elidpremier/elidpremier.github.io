@@ -25,7 +25,7 @@ h1, h2, h3 { color: var(--primary); margin-bottom: .75rem; }
 h1 { font-size: 1.9rem; text-align: center; font-weight: 600; }
 h2 { font-size: 1.5rem; text-align: center; margin: 1.8rem 0 1.2rem; }
 
-p, ul, blockquote { margin-bottom: 1rem; color: #333; }
+p, ul, blockquote { margin-bottom: 1rem; color: var(--dark); }
 ul { padding-left: 1.2rem; }
 
 blockquote { font-style: italic; margin: 1rem 0; padding: .9rem; border-left: 3px solid var(--primary); background-color: rgba(44,94,141,0.04); }
@@ -46,6 +46,35 @@ cite { display:block; margin-top:.5rem; font-weight:600; color:var(--muted); }
 .btn { display:inline-block; text-decoration:none; cursor:pointer; font-weight:600; border-radius:999px; padding:.55rem 1rem; }
 .btn-primary { background: white; color: var(--primary); box-shadow: 0 6px 18px rgba(16,24,40,0.08); }
 .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(16,24,40,0.12); }
+
+/* Micro-interactions: buttons, cards, social icons, theme toggle */
+.btn {
+  transition: transform .18s ease, box-shadow .18s ease, background-color .18s ease, color .18s ease;
+}
+.btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(16,24,40,0.08); }
+.btn:active { transform: translateY(-1px) scale(.995); }
+.btn:focus-visible { outline: 3px solid rgba(31,182,167,0.18); outline-offset: 3px; }
+
+.offer-card { transition: transform .22s cubic-bezier(.2,.9,.3,1), box-shadow .22s ease; }
+.offer-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 22px 50px rgba(16,24,40,0.08); }
+
+#theme-toggle { transition: transform .25s ease, background-color .18s ease; border-radius:999px; }
+#theme-toggle:hover { transform: rotate(18deg) scale(1.05); }
+#theme-toggle:active { transform: rotate(0deg) scale(.98); }
+
+.social a { transition: transform .18s ease, color .12s ease, opacity .12s ease; }
+.social a:hover { transform: translateY(-3px); opacity:1; color: var(--accent); }
+
+.sticky-cta { transition: transform .18s ease, box-shadow .18s ease; }
+.sticky-cta:hover { transform: translateY(-4px) scale(1.03); box-shadow:0 18px 36px rgba(31,182,167,0.22); }
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .offer-card, .btn, .carousel-control, .sticky-cta, #theme-toggle {
+    transition: none !important;
+    transform: none !important;
+  }
+}
 
 /* Sections */
 .section { padding:2.2rem 0; }
@@ -79,8 +108,38 @@ cite { display:block; margin-top:.5rem; font-weight:600; color:var(--muted); }
 
 .note { text-align:center; font-size:.9rem; color:var(--muted); }
 
+/* Form feedback */
+.form-feedback { font-size:0.9rem; margin-top:-0.6rem; margin-bottom:0.6rem; color:#c53030; display:none; }
+.input-error { border-color: #c53030 !important; box-shadow: 0 6px 18px rgba(197,48,48,0.06) !important; }
+.form-success { color: #1b9a55; display:block; }
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-1px); }
+  20%, 80% { transform: translateX(2px); }
+  30%, 50%, 70% { transform: translateX(-4px); }
+  40%, 60% { transform: translateX(4px); }
+}
+.shake { animation: shake .6s ease; }
+
+/* Smooth theme switch: apply temporary transition class while toggling */
+:root.theme-transition, :root.theme-transition * {
+  transition: background-color .28s ease, color .28s ease, border-color .28s ease !important;
+}
+
+/* Lazy-loaded background helper */
+[data-bg] { background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0; }
+[data-bg].bg-loaded { opacity: 1; transition: opacity .45s ease; }
+
 /* Footer */
 .footer { background-color: var(--dark); color:white; text-align:center; padding:1.5rem 0; margin-top:2rem; }
+
+
+/* Stronger override in case of inheritance or other rules */
+:root:not([data-theme="dark"]) .footer,
+:root:not([data-theme="dark"]) .footer * {
+  color: #ffffff !important;
+}
+:root:not([data-theme="dark"]) .footer a { color: #ffffff !important; opacity: .95; }
 
 /* Metrics */
 .metrics { display:flex; gap:1.25rem; justify-content:center; align-items:center; }
@@ -114,7 +173,7 @@ cite { display:block; margin-top:.5rem; font-weight:600; color:var(--muted); }
   --primary-dark: #5b8fb0;
   --accent: #44bba6;
   --light: #07121a; /* page background */
-  --dark: #e6f0f6;  /* main text color */
+  --dark: #ffffff;  /* main text color: white / very light gray */
   --muted: #9fb0bd;
   --border: #0f2a33;
   --card-bg: #0c1720;
