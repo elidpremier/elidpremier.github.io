@@ -156,9 +156,7 @@ cite { display:block; margin-top:.5rem; font-weight:600; color:var(--muted); }
 .testimonial { display:flex; gap:0.9rem; align-items:flex-start; }
 .case-card { background: #fff; border-radius:12px; padding:1rem; border:1px solid var(--border); box-shadow: 0 8px 20px rgba(12,16,24,0.04); }
 
-/* File input display */
-.file-row { display:flex; gap:.6rem; align-items:center; }
-.file-name { font-size:.9rem; color:var(--muted); }
+/* File input display (removed - upload form currently hidden) */
 
 /* Reveal animations */
 .reveal { opacity: 0; transform: translateY(12px); will-change: transform, opacity; }
